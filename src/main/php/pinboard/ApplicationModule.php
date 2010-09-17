@@ -21,7 +21,11 @@ require_once('TypeSafe/logging/RequestLoggerModule.php');
 require_once('TypeSafe/security/SecurityModule.php');
 require_once('TypeSafe/session/PhpSessionModule.php');
 require_once('mongodb/DefaultMongoDBModule.php');
-
+require_once('security/MongoDBSecurityManagerModule.php');
+require_once('users/DefaultUserModule.php');
+require_once('servlets/Pinboard.php');
+require_once('servlets/PinboardAction.php');
+require_once('servlets/Welcome.php');
 
 
 /**
@@ -31,11 +35,23 @@ require_once('mongodb/DefaultMongoDBModule.php');
 class ApplicationModule extends ServletModule {
 
     public function configuration() {
-        install(new PhpConfigurationModule(dirname(__FILE__).'/../pinjector-config.php'));
-        install(new RequestLoggerModule());
-        install(new SecurityModule());
-        install(new PhpSessionModule());
+        $this->install(new PhpConfigurationModule(dirname(__FILE__).'/../pinboard-config.php'));
+        $this->install(new RequestLoggerModule());
+        $this->install(new SecurityModule());
+        $this->install(new PhpSessionModule());
 
-        install(new DefaultMongoDB());
+        $this->install(new DefaultMongoDBModule());
+        $this->install(new MongoDBSecurityManagerModule());
+        $this->install(new DefaultUserModule());
+
+        // servlets
+        $this->bind('Welcome')->inRequestScope();
+        $this->handle('/welcome\.html/')->with('Welcome');
+
+        $this->bind('Pinboard')->inRequestScope();
+        $this->handle('/^$/')->with('Pinboard');
+
+        $this->bind('PinboardAction')->inRequestScope();
+        $this->handle('/^ajax\.service$/')->with('PinboardAction');
     }
 }

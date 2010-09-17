@@ -15,19 +15,25 @@
  * limitations under the License.
  */
 
-require_once('TypeSafe/ServletModule.php');
-require_once('DefaultUserProvider.php');
-require_once('DefaultUserService.php');
-
-
 /**
+ * pinboard configuration file. Do not change anything here, instead
+ * store your values in a file called "pinboard-config.local.php".
+ *
  * 
  * @author Tobias Sarnowski
- */ 
-class DefaultUserModule extends ServletModule {
+ */
 
-    public function configuration() {
-        $this->bind('UserService')->to('DefaultUserService')->inRequestScope();
-        $this->bind('UserProvider')->to('DefaultUserProvider')->inRequestScope();
-    }
+$config = array();
+
+
+// default database configuration
+$config['db.host'] = 'localhost';
+$config['db.port'] = '5984';
+$config['db.prefix'] = 'pinboard_';
+
+
+// load the local config if exists
+$localConfig = dirname(__FILE__).'/pinboard-config.local.php';
+if (file_exists($localConfig)) {
+    include($localConfig);
 }
