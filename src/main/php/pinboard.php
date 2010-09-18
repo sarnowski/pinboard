@@ -22,10 +22,6 @@ if (!set_include_path($includePath)) {
     die('Cannot set include path!');
 }
 
-// load dependencies
-require_once('TypeSafe/BootLoader.php');
-require_once('pinboard/ApplicationModule.php');
-
 
 // throw php errors as exceptions
 function exceptions_error_handler($severity, $message, $filename, $lineno) {
@@ -34,10 +30,36 @@ function exceptions_error_handler($severity, $message, $filename, $lineno) {
 
 set_error_handler('exceptions_error_handler');
 
-// start the php session
-session_start();
+// helper to print nice errors
+function print_exception(Exception $e) {
+    $debug = ini_get('display_errors');
 
+    if ($e instanceof HttpException) {
+        if (!$debug) {
+            header('HTTP/1.0 '.$e->getStatusCode().' '.$e->getTitle());
+        }
+        echo '<h1>'.$e->getTitle().'</h1>';
+    } else {
+        header('HTTP/1.0 500 Internal Server Error');
+        echo '<h1>Internal Server Error</h1>';
+    }
+    if ($debug) {
+        echo '<h2>'.get_class($e).': '.$e->getMessage().'</h2>';
+        echo '<pre>'.$e->getTraceAsString().'</pre>';
+    }
+}
+
+
+// main boot
 try {
+
+    // load dependencies
+    require_once('TypeSafe/http/HttpException.php');
+    require_once('TypeSafe/BootLoader.php');
+    require_once('pinboard/ApplicationModule.php');
+
+    // start the php session
+    session_start();
 
     // initialize
     $framework = BootLoader::boot(new ApplicationModule());
@@ -46,11 +68,7 @@ try {
     $framework->request($_GET['uri']);
 
 } catch (Exception $e) {
-    // something went horribly wrong
-    echo '<h1>Internal Server Error</h1>';
-    // TODO check if error reporting is on to print the following
-    echo '<h2>'.get_class($e).': '.$e->getMessage().'</h2>';
-    echo '<pre>'.$e->getTraceAsString().'</pre>';
+    print_exception($e);
 }
 
 die();
