@@ -16,16 +16,16 @@
  */
 
 require_once('TypeSafe/ServletModule.php');
-require_once('DefaultMongoDB.php');
+require_once('DefaultCouchDB.php');
 
 
 /**
  * 
  * @author Tobias Sarnowski
  */ 
-class DefaultMongoDBModule extends ServletModule {
+class DefaultCouchDBModule extends ServletModule {
 
     public function configuration() {
-        $this->bind('MongoDB')->to('DefaultMongoDB')->inRequestScope();
+        $this->bind('CouchDB')->to('DefaultCouchDB')->inRequestScope();
     }
 }

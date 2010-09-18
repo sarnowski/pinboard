@@ -16,16 +16,16 @@
  */
 
 require_once('TypeSafe/ServletModule.php');
-require_once('MongoDBSecurityManager.php');
+require_once('DefaultSecurityManager.php');
 
 
 /**
  * 
  * @author Tobias Sarnowski
  */ 
-class MongoDBSecurityManagerModule extends ServletModule {
+class DefaultSecurityManagerModule extends ServletModule {
 
     public function configuration() {
-        $this->bind('SecurityManager')->to('MongoDBSecurityManager')->inRequestScope();
+        $this->bind('SecurityManager')->to('DefaultSecurityManager')->inRequestScope();
     }
 }

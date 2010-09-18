@@ -17,14 +17,14 @@
 
 require_once('TypeSafe/logging/Logger.php');
 require_once('TypeSafe/config/Configuration.php');
-require_once('MongoDB.php');
+require_once('CouchDB.php');
 
 
 /**
  * 
  * @author Tobias Sarnowski
  */ 
-class DefaultMongoDB implements MongoDB {
+class DefaultCouchDB implements CouchDB {
 
     /**
      * @var Configuration

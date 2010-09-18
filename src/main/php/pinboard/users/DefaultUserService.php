@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+require_once('pinboard/couchdb/CouchDB.php');
 require_once('UserService.php');
 
 
@@ -25,16 +25,16 @@ require_once('UserService.php');
 class DefaultUserService implements UserService {
 
     /**
-     * @var MongoDB
+     * @var CouchDB
      */
-    private $mongoDb;
+    private $couchDb;
 
     /**
-     * @param MongoDB $mongoDb
+     * @param CouchDB $couchDb
      * @return void
      */
-    function __construct(MongoDB $mongoDb) {
-        $this->mongoDb = $mongoDb;
+    function __construct(CouchDB $couchDb) {
+        $this->couchDb = $couchDb;
     }
 
     public function create($email, $password) {

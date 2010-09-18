@@ -21,7 +21,7 @@
  * 
  * @author Tobias Sarnowski
  */
-interface MongoDB {
+interface CouchDB {
 
     /**
      * Fires a GET request to the mongo db.

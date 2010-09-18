@@ -20,8 +20,8 @@ require_once('TypeSafe/config/PhpConfigurationModule.php');
 require_once('TypeSafe/logging/RequestLoggerModule.php');
 require_once('TypeSafe/security/SecurityModule.php');
 require_once('TypeSafe/session/PhpSessionModule.php');
-require_once('mongodb/DefaultMongoDBModule.php');
-require_once('security/MongoDBSecurityManagerModule.php');
+require_once('couchdb/DefaultCouchDBModule.php');
+require_once('security/DefaultSecurityManagerModule.php');
 require_once('users/DefaultUserModule.php');
 require_once('servlets/Pinboard.php');
 require_once('servlets/PinboardAction.php');
@@ -40,8 +40,8 @@ class ApplicationModule extends ServletModule {
         $this->install(new SecurityModule());
         $this->install(new PhpSessionModule());
 
-        $this->install(new DefaultMongoDBModule());
-        $this->install(new MongoDBSecurityManagerModule());
+        $this->install(new DefaultCouchDBModule());
+        $this->install(new DefaultSecurityManagerModule());
         $this->install(new DefaultUserModule());
 
         // servlets

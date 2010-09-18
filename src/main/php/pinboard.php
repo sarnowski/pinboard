@@ -49,7 +49,7 @@ try {
     // something went horribly wrong
     echo '<h1>Internal Server Error</h1>';
     // TODO check if error reporting is on to print the following
-    echo '<h2>'.$e.'</h2>';
+    echo '<h2>'.get_class($e).': '.$e->getMessage().'</h2>';
     echo '<pre>'.$e->getTraceAsString().'</pre>';
 }
 

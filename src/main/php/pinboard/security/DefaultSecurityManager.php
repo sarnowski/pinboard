@@ -25,7 +25,7 @@ require_once('pinboard/users/UserService.php');
  * 
  * @author Tobias Sarnowski
  */ 
-class MongoDBSecurityManager implements SecurityManager {
+class DefaultSecurityManager implements SecurityManager {
 
     /**
      * @var UserService
