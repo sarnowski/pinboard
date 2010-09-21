@@ -16,44 +16,63 @@
  */
 
 
+
 /**
  * 
  * @author Tobias Sarnowski
- */ 
-interface User {
+ */
+interface CouchDBObject {
 
     /**
-     * Returns the unique identifier of an user.
+     * A unique identifier for the object.
      *
      * @abstract
      * @return string
      */
-    public function getUserId();
+    public function getId();
 
     /**
-     * The user's E-Mail address.
+     * Sets the object's ID.
      *
      * @abstract
-     * @return string
-     */
-    public function getEmail();
-
-    /**
-     * Checks, if the given password is the user one's.
-     *
-     * @abstract
-     * @param  string $password
-     * @return boolean
-     */
-    public function isPassword($password);
-
-    /**
-     * Sets a new password for the user.
-     *
-     * @abstract
-     * @param  string $password
+     * @param  string $id
      * @return void
      */
-    public function setPassword($password);
+    public function setId($id);
+
+    /**
+     * Returns the revision of the object.
+     *
+     * @abstract
+     * @return string
+     */
+    public function getRev();
+
+    /**
+     * Sets the object's revision.
+     *
+     * @abstract
+     * @param  string $rev
+     * @return void
+     */
+    public function setRev($rev);
+
+    /**
+     * Dehydrates an object to its json representation.
+     *
+     * @abstract
+     * @return string
+     */
+    public function toJson();
+
+    /**
+     * Hydrates an object with its json representation.
+     *
+     * @static
+     * @abstract
+     * @param  string $json
+     * @return mixed
+     */
+    public static function fromJson($json);
 
 }

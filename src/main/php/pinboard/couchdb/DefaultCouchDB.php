@@ -19,6 +19,7 @@ require_once('TypeSafe/logging/Logger.php');
 require_once('TypeSafe/config/Configuration.php');
 require_once('CouchDB.php');
 require_once('CouchDBException.php');
+require_once('CouchDBObject.php');
 
 
 /**
@@ -118,19 +119,111 @@ class DefaultCouchDB implements CouchDB {
             $response .= fgets($s);
         }
 
+        fclose($s);
+
         list($header, $body) = explode("\r\n\r\n", $response);
         return $body;
     }
 
-    public function delete($database, JsonObject $object) {
-        // TODO: Implement delete() method.
-    }
-
     public function read($database, $class, $id) {
-        // TODO: Implement read() method.
+        $json = $this->get($database, $id);
+
+        $class = new ReflectionClass($class);
+        $object = $class->getMethod('fromJson')->invokeArgs(null, $json);
+
+        return $object;
     }
 
-    public function update($database, JsonObject $object) {
-        // TODO: Implement update() method.
+    public function update($database, CouchDBObject $object) {
+        $json = $this->put($database, $object->getId(), $object->toJson());
+        $response = json_decode($json);
+
+        if (!$response) {
+            throw new CouchDBException("update failed; no response");
+        }
+        if ($response['ok'] != true) {
+            throw new CouchDBException("update failed; returned false");
+        }
+
+        $object->setId($response['id']);
+        $object->setRev($response['rev']);
+
+        return $object;
+    }
+
+    public function delete($database, CouchDBObject $object) {
+        $json = $this->del($database, $object->getId().'?rev='.$object->getRev());
+        $response = json_decode($json);
+
+        if (!$response) {
+            throw new CouchDBException("deletion failed; no response");
+        }
+        if ($response['ok'] != true) {
+            throw new CouchDBException("deletion failed; returned false");
+        }
+    }
+
+    public function storeDesignDocument($database, $name, $views) {
+        $data = array(
+            '_id' => '_design/'.$name,
+            'language' => 'javascript',
+            'views' => array()
+        );
+
+        foreach ($views as $view) {
+            $data['views'][$view->getName()] = array(
+                'map' => $view->getMapFunction()
+            );
+            $reduce = $view->getReduceFunction();
+            if ($reduce != null) {
+                $data['views'][$view->getName()]['reduce'] = $reduce;
+            }
+        }
+
+        $this->put($database, '/', json_encode($data));
+    }
+
+    public function view($database, $designDocument, $viewName, $parameters = null, $class = null) {
+        if ($parameters == null) {
+            $parameters = array();
+        }
+
+        $url = "_design/$designDocument/_view/$viewName";
+
+        if (!empty($parameters)) {
+            $first = true;
+            foreach ($parameters as $key => $value) {
+                if ($first) {
+                    $url .= '?';
+                    $first = false;
+                } else {
+                    $url .= '&';
+                }
+
+                $url .= $key.'='.$value;
+            }
+        }
+
+        $response = json_decode($this->get($database, $url), true);
+        if (!$response) {
+            throw new CouchDBException("Cannot parse view response.");
+        }
+
+        if ($class == null) {
+            $creator = null;
+        } else {
+            $class = new ReflectionClass($class);
+            $creator = $class->getMethod("fromJson");
+        }
+
+        $result = array();
+        foreach ($response['rows'] as $row) {
+            if ($creator == null) {
+                $result[] = $row;
+            } else {
+                $result[] = $creator->invokeArgs(null, array(json_encode($row)));
+            }
+        }
+        return $result;
     }
 }

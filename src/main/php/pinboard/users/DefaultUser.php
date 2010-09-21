@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+require_once('pinboard/couchdb/AbstractCouchDBObject.php');
 require_once('User.php');
 
 
@@ -21,15 +22,17 @@ require_once('User.php');
  * 
  * @author Tobias Sarnowski
  */ 
-class DefaultUser implements User {
+class DefaultUser extends AbstractCouchDBObject implements User {
 
-    private $id;
+    /**
+     * @var string
+     */
     private $email;
-    private $password;
 
-    function __construct($id) {
-        $this->id = uniqid();
-    }
+    /**
+     * @var string
+     */
+    private $password;
 
     /**
      * @static
@@ -38,10 +41,14 @@ class DefaultUser implements User {
      * @return DefaultUser
      */
     public static function create($email, $password) {
-        $user = new DefaultUser(uniqid());
+        $user = new DefaultUser();
         $user->setEmail($email);
         $user->setPassword($password);
         return $user;
+    }
+
+    public function getUserId() {
+        return $this->getId();
     }
 
     public function getEmail() {
@@ -52,10 +59,6 @@ class DefaultUser implements User {
         $this->email = $email;
     }
 
-    public function getId() {
-        return $this->id;
-    }
-
     public function isPassword($password) {
         return $password != null && $password == $this->password;
     }
@@ -64,19 +67,17 @@ class DefaultUser implements User {
         $this->password = $password;
     }
 
-    public function toJson() {
-        return json_encode(array(
-            'id' => $this->id,
+    function createDataSet() {
+        return array(
             'email' => $this->email,
             'password' => $this->password
-        ));
+        );
     }
 
-    public static function fromJson($json) {
-        $obj = json_decode($json, true);
-        $user = new DefaultUser($obj['id']);
-        $user->setEmail($obj['email']);
-        $user->setPassword($obj['password']);
+    static function createObjectFromDataSet($data) {
+        $user = new DefaultUser();
+        $user->setEmail($data['email']);
+        $user->setPassword($data['password']);
         return $user;
     }
 }

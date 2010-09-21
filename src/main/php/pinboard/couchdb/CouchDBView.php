@@ -18,35 +18,39 @@
 
 
 /**
- * 
+ *
  * @author Tobias Sarnowski
- */
-interface JsonObject {
+ */ 
+interface CouchDBView {
 
     /**
-     * A unique identifier for the object.
+     * Returns the unique name of the view within the design document.
      *
      * @abstract
      * @return string
      */
-    public function getId();
+    public function getName();
 
     /**
-     * Dehydrates an object to its json representation.
+     * Returns the javascript map function.
+     *
+     * <b>Example:</b><br/>
+     * <pre>function(doc) { emit(null,doc) }</pre>
      *
      * @abstract
      * @return string
      */
-    public function toJson();
+    public function getMapFunction();
 
     /**
-     * Hydrates an object with its json representation.
+     * Returns the javascript reduce function or null if no reduce function should be used.
      *
-     * @static
+     * <b>Example:</b><br/>
+     * <pre>function(keys, values) { return sum(values) }</pre>
+     *
      * @abstract
-     * @param  string $json
-     * @return mixed
+     * @return string
      */
-    public static function fromJson($json);
+    public function getReduceFunction();
 
 }

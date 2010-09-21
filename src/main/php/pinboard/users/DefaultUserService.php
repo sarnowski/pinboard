@@ -31,6 +31,11 @@ class DefaultUserService implements UserService {
     const USER_DB = "users";
 
     /**
+     * Database were the users are stored.
+     */
+    const USER_VIEWS = "views";
+
+    /**
      * @var CouchDB
      */
     private $couchDb;

@@ -25,6 +25,7 @@ require_once('security/DefaultSecurityManagerModule.php');
 require_once('users/DefaultUserModule.php');
 require_once('servlets/Pinboard.php');
 require_once('servlets/PinboardAction.php');
+require_once('servlets/Installation.php');
 require_once('servlets/Welcome.php');
 
 
@@ -47,6 +48,9 @@ class ApplicationModule extends ServletModule {
         // servlets
         $this->bind('Welcome')->inRequestScope();
         $this->handle('/welcome\.html/')->with('Welcome');
+
+        $this->bind('Installation')->inRequestScope();
+        $this->handle('/install\.html/')->with('Installation');
 
         $this->bind('Pinboard')->inRequestScope();
         $this->handle('/^$/')->with('Pinboard');

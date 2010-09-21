@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 require_once('CouchDBException.php');
+require_once('CouchDBObject.php');
 
 
 /**
@@ -58,14 +59,14 @@ interface CouchDB {
     public function put($database, $url, $data);
 
     /**
-     * Stores an object in the database.
+     * Stores an object in the database and returns the updated object.
      *
      * @abstract
      * @param  string $database
-     * @param  JsonObject $object
-     * @return void
+     * @param  CouchDBObject $object
+     * @return mixed
      */
-    public function update($database, JsonObject $object);
+    public function update($database, CouchDBObject $object);
 
     /**
      * Fires a DELETE request to the mongo db.
@@ -83,9 +84,35 @@ interface CouchDB {
      *
      * @abstract
      * @param  string $database
-     * @param  JsonObject $object
+     * @param  CouchDBObject $object
      * @return void
      */
-    public function delete($database, JsonObject $object);
+    public function delete($database, CouchDBObject $object);
 
+    /**
+     * Returns a list of all results given by the view. If
+     * the class param is set, the results will be hydrated.
+     * Parameters are a list of key/value pairs for the
+     * GET URL.
+     *
+     * @abstract
+     * @param  string $database
+     * @param  string $designDocument
+     * @param  string $viewName
+     * @param  string $parameters
+     * @param  string $class
+     * @return array
+     */
+    public function view($database, $designDocument, $viewName, $parameters = null, $class = null);
+
+    /**
+     * Stores a design document under the name with the given list of CouchDBViews.
+     *
+     * @abstract
+     * @param  string $database
+     * @param  string $name
+     * @param  array $views
+     * @return void
+     */
+    public function storeDesignDocument($database, $name, $views);
 }
