@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-require_once('pinboard/couchdb/JsonObject.php');
 require_once('User.php');
 
 
@@ -23,7 +21,7 @@ require_once('User.php');
  * 
  * @author Tobias Sarnowski
  */ 
-class DefaultUser implements User, JsonObject {
+class DefaultUser implements User {
 
     private $id;
     private $email;

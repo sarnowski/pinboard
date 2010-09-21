@@ -121,4 +121,16 @@ class DefaultCouchDB implements CouchDB {
         list($header, $body) = explode("\r\n\r\n", $response);
         return $body;
     }
+
+    public function delete($database, JsonObject $object) {
+        // TODO: Implement delete() method.
+    }
+
+    public function read($database, $class, $id) {
+        // TODO: Implement read() method.
+    }
+
+    public function update($database, JsonObject $object) {
+        // TODO: Implement update() method.
+    }
 }

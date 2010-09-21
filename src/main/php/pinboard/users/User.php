@@ -14,22 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+require_once('pinboard/couchdb/JsonObject.php');
 
 
 /**
  * 
  * @author Tobias Sarnowski
  */ 
-interface User {
-
-    /**
-     * A unique identifier of an user.
-     *
-     * @abstract
-     * @return string
-     */
-    public function getId();
+interface User extends JsonObject {
 
     /**
      * The user's E-Mail address.
