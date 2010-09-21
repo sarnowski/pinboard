@@ -15,25 +15,12 @@
  * limitations under the License.
  */
 
+
+
 /**
- * pinboard configuration file. Do not change anything here, instead
- * store your values in a file called "pinboard-config.local.php".
- *
  * 
  * @author Tobias Sarnowski
- */
+ */ 
+class CouchDBException extends Exception {
 
-$config = array();
-
-
-// default database configuration
-$config['db.host'] = 'localhost';
-$config['db.port'] = 5984;
-$config['db.prefix'] = 'pinboard_';
-
-
-// load the local config if exists
-$localConfig = dirname(__FILE__).'/pinboard-config.local.php';
-if (file_exists($localConfig)) {
-    include($localConfig);
 }

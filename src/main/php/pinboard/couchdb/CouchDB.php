@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+require_once('CouchDBException.php');
 
 
 /**
@@ -30,8 +30,20 @@ interface CouchDB {
      * @param  string $database
      * @param  string $url
      * @return mixed
+     * @throws CouchDBException
      */
     public function get($database, $url);
+
+    /**
+     * Gets an object from the database and hydrates it.
+     *
+     * @abstract
+     * @param  string $database
+     * @param  string $class a classname of type JsonObject
+     * @param  string $id
+     * @return mixed
+     */
+    public function read($database, $class, $id);
 
     /**
      * Fires a PUT request to the mongo db.
@@ -41,8 +53,19 @@ interface CouchDB {
      * @param  string $url
      * @param  mixed $data
      * @return mixed
+     * @throws CouchDBException
      */
     public function put($database, $url, $data);
+
+    /**
+     * Stores an object in the database.
+     *
+     * @abstract
+     * @param  string $database
+     * @param  JsonObject $object
+     * @return void
+     */
+    public function update($database, JsonObject $object);
 
     /**
      * Fires a DELETE request to the mongo db.
@@ -51,7 +74,18 @@ interface CouchDB {
      * @param  string $database
      * @param  string $url
      * @return mixed
+     * @throws CouchDBException
      */
     public function del($database, $url);
+
+    /**
+     * Deletes a JsonObject from the database.
+     *
+     * @abstract
+     * @param  string $database
+     * @param  JsonObject $object
+     * @return void
+     */
+    public function delete($database, JsonObject $object);
 
 }

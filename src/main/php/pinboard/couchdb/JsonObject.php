@@ -15,25 +15,38 @@
  * limitations under the License.
  */
 
+
+
 /**
- * pinboard configuration file. Do not change anything here, instead
- * store your values in a file called "pinboard-config.local.php".
- *
  * 
  * @author Tobias Sarnowski
  */
+interface JsonObject {
 
-$config = array();
+    /**
+     * A unique identifier for the object.
+     *
+     * @abstract
+     * @return string
+     */
+    public function getId();
 
+    /**
+     * Dehydrates an object to its json representation.
+     *
+     * @abstract
+     * @return string
+     */
+    public function toJson();
 
-// default database configuration
-$config['db.host'] = 'localhost';
-$config['db.port'] = 5984;
-$config['db.prefix'] = 'pinboard_';
+    /**
+     * Hydrates an object with its json representation.
+     *
+     * @static
+     * @abstract
+     * @param  string $json
+     * @return mixed
+     */
+    public static function fromJson($json);
 
-
-// load the local config if exists
-$localConfig = dirname(__FILE__).'/pinboard-config.local.php';
-if (file_exists($localConfig)) {
-    include($localConfig);
 }

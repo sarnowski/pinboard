@@ -25,6 +25,6 @@ require_once('TypeSafe/Servlet.php');
 class Pinboard implements Servlet {
 
     public function handleRequest($matches) {
-        echo "Pinboard";
+        phpinfo();
     }
 }

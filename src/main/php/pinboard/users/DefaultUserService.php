@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 require_once('pinboard/couchdb/CouchDB.php');
+require_once('DefaultUser.php');
 require_once('UserService.php');
 
 
@@ -23,6 +24,11 @@ require_once('UserService.php');
  * @author Tobias Sarnowski
  */ 
 class DefaultUserService implements UserService {
+
+    /**
+     * Database were the users are stored.
+     */
+    const USER_DB = "users";
 
     /**
      * @var CouchDB
@@ -38,11 +44,12 @@ class DefaultUserService implements UserService {
     }
 
     public function create($email, $password) {
-        // TODO: Implement create() method.
+        $user = DefaultUser::create($email, $password);
+        $this->couchDb->update(self::USER_DB, $user);
     }
 
     public function read($userId) {
-        // TODO: Implement read() method.
+        return $this->couchDb->read(self::USER_DB, 'DefaultUser', $userId);
     }
 
     public function readByEmail($email) {
@@ -50,6 +57,6 @@ class DefaultUserService implements UserService {
     }
 
     public function update($user) {
-        // TODO: Implement update() method.
+        $this->couchDb->update(self::USER_DB, $user);
     }
 }
