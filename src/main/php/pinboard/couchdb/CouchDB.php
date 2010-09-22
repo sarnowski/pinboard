@@ -85,7 +85,7 @@ interface CouchDB {
      * @abstract
      * @param  string $database
      * @param  CouchDBObject $object
-     * @return void
+     * @return string
      */
     public function delete($database, CouchDBObject $object);
 
@@ -112,7 +112,7 @@ interface CouchDB {
      * @param  string $database
      * @param  string $name
      * @param  array $views
-     * @return void
+     * @return string
      */
     public function storeDesignDocument($database, $name, $views);
 }

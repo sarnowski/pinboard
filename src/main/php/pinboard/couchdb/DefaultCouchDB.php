@@ -122,6 +122,13 @@ class DefaultCouchDB implements CouchDB {
         fclose($s);
 
         list($header, $body) = explode("\r\n\r\n", $response);
+
+        $err_str = '{"error":';
+        if (substr($body, 0, strlen($err_str)) == $err_str) {
+            $error = json_decode($body, true);
+            throw new CouchDBException($error['error'].': '.$error['reason']);
+        }
+
         return $body;
     }
 
@@ -161,6 +168,7 @@ class DefaultCouchDB implements CouchDB {
         if ($response['ok'] != true) {
             throw new CouchDBException("deletion failed; returned false");
         }
+        return $response;
     }
 
     public function storeDesignDocument($database, $name, $views) {
@@ -180,7 +188,7 @@ class DefaultCouchDB implements CouchDB {
             }
         }
 
-        $this->put($database, '/', json_encode($data));
+        return $this->put($database, '/'.$data['_id'], json_encode($data));
     }
 
     public function view($database, $designDocument, $viewName, $parameters = null, $class = null) {
