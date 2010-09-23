@@ -18,11 +18,14 @@
 require_once('TypeSafe/ServletModule.php');
 require_once('TypeSafe/config/PhpConfigurationModule.php');
 require_once('TypeSafe/logging/RequestLoggerModule.php');
-require_once('TypeSafe/security/SecurityModule.php');
 require_once('TypeSafe/session/PhpSessionModule.php');
+require_once('TypeSafe/security/SecurityModule.php');
 require_once('TypeSafe/couchdb/DefaultCouchDBModule.php');
+
 require_once('security/DefaultSecurityManagerModule.php');
+
 require_once('users/DefaultUserModule.php');
+
 require_once('servlets/Pinboard.php');
 require_once('servlets/PinboardAction.php');
 require_once('servlets/Installation.php');
@@ -36,9 +39,11 @@ require_once('servlets/Welcome.php');
 class ApplicationModule extends ServletModule {
 
     public function configuration() {
-        $this->install(new PhpConfigurationModule(dirname(__FILE__).'/../pinboard-config.php'));
+        $this->install(new PhpConfigurationModule(dirname(__FILE__).'/../config.pinboard.php'));
         $this->install(new RequestLoggerModule());
         $this->install(new SecurityModule());
+
+        session_start();
         $this->install(new PhpSessionModule());
 
         $this->install(new DefaultCouchDBModule());

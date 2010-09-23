@@ -33,7 +33,7 @@ $config['db.prefix'] = 'pinboard_';
 
 
 // load the local config if exists
-$localConfig = dirname(__FILE__).'/pinboard-config.local.php';
+$localConfig = dirname(__FILE__).'/config.pinboard.local.php';
 if (file_exists($localConfig)) {
     include($localConfig);
 }
