@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-require_once('pinboard/couchdb/CouchDBView.php');
+require_once('TypeSafe/couchdb/CouchDBView.php');
 
 
 /**

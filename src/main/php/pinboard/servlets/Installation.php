@@ -18,7 +18,7 @@
 require_once('TypeSafe/Servlet.php');
 require_once('TypeSafe/config/Configuration.php');
 require_once('TypeSafe/http/ForbiddenException.php');
-require_once('pinboard/couchdb/CouchDB.php');
+require_once('TypeSafe/couchdb/CouchDB.php');
 require_once('pinboard/users/DefaultUserService.php');
 require_once('pinboard/users/ViewUserByEmail.php');
 

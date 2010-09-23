@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-require_once('pinboard/couchdb/AbstractCouchDBObject.php');
+require_once('TypeSafe/couchdb/AbstractCouchDBObject.php');
 require_once('User.php');
 
 

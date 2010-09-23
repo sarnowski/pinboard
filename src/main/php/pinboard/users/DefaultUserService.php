@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-require_once('pinboard/couchdb/CouchDB.php');
+require_once('TypeSafe/couchdb/CouchDB.php');
 require_once('DefaultUser.php');
 require_once('UserService.php');
 

@@ -20,7 +20,7 @@ require_once('TypeSafe/config/PhpConfigurationModule.php');
 require_once('TypeSafe/logging/RequestLoggerModule.php');
 require_once('TypeSafe/security/SecurityModule.php');
 require_once('TypeSafe/session/PhpSessionModule.php');
-require_once('couchdb/DefaultCouchDBModule.php');
+require_once('TypeSafe/couchdb/DefaultCouchDBModule.php');
 require_once('security/DefaultSecurityManagerModule.php');
 require_once('users/DefaultUserModule.php');
 require_once('servlets/Pinboard.php');
